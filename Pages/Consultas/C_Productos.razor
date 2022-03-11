@@ -1,0 +1,112 @@
+@page "/C_Productos"
+
+<EditForm Model="lista">
+    <DataAnnotationsValidator />
+    <div class="card">
+        <div class="card-header">
+            <h3>Consulta de Productos</h3>
+        </div>
+        <div class="card-body">
+            <form>
+                <div class="input-group d-flex align-items-end">
+                    <div class="flex-fill mx-2">
+                        <label>Filtro</label>
+                        <select class="form-control col-2" @bind="Filtro">
+                            <option value="0">Producto Id</option>
+                            <option value="1">Descripcion</option>
+                            <option value="2">Fecha Caducidad y Producto Id</option>
+                        </select>
+                    </div>
+                    <div class="flex-fill mx-2">
+                        <label>Criterio</label>
+                        <input type="text" class="form-control" @bind="Criterio" />
+                    </div>
+               
+                        <div class="flex-fill mx-2">
+                            <label>Desde</label>
+                            <input type="date" class="form-control" @bind="FechaDesde" />
+                        </div>
+                        <div class="flex-fill mx-2">
+                            <label>Hasta</label>
+                            <input type="date" class="form-control" @bind="FechaHasta" />
+                        </div>
+                    
+                    <button type="button" class="btn btn-warning" @onclick="Buscar">
+                        <i class="oi oi-magnifying-glass mr-2"> Buscar</i>
+                    </button>
+                </div>
+            </form>
+        </div>
+        <table class="table table-light">
+            <thead class="thead">
+                <tr class="table">
+                    <th>Producto Id</th>
+                    <th>Descripcion</th>
+                    <th>Existencia</th>
+                    <th>Fecha Caducidad</th>
+                    <th>Costo</th>
+                    <th>Valor Inventario</th>
+                    <th>Ganancia</th>
+                    <th>Precio</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in lista)
+                {
+                    <tr>
+                        <td>@item.ProductoId</td>
+                        <td>@item.Descripcion</td>
+                        <td>@item.Existencia</td>
+                        <td>@item.FechaCaducidad</td>
+                        <td>RD$ @item.Costo</td>
+                        <td>@item.ValorInventario</td>
+                        <td>@item.Ganancia%</td>
+                        <td>RD$ @item.Precio</td>
+                        <td><a class="btn btn-sm btn-outline-primary oi oi-eye" href="R_Productos/@item.ProductoId">Ver</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</EditForm>
+
+@code {
+    public string? Filtro { get; set; }
+    public string? Criterio { get; set; }
+    public DateTime? FechaDesde = null;
+    public DateTime? FechaHasta = null;
+    public List<Productos> lista = new List<Productos>();
+
+    [Inject]
+    public ProductosBBL productoBBL { get; set; }
+
+
+    private void Buscar()
+    {
+        if (Criterio != null)
+        {
+            switch (Filtro)
+            {
+                case "0":
+                    lista = productoBBL.GetList(p => p.ProductoId == int.Parse(Criterio));
+                    break;
+                case "1":
+                    lista = productoBBL.GetList(c => c.Descripcion.ToLower().Contains(Criterio.ToLower()));
+                    break;
+                case "2":
+                    lista = productoBBL.GetList(d => (d.FechaCaducidad >= FechaDesde && d.FechaCaducidad <= FechaHasta) && d.ProductoId == int.Parse(Criterio));
+                    break;
+            }
+        }
+        else
+        {
+            lista = productoBBL.GetList(c => true);
+        }
+    }
+
+
+
+
+
+}

@@ -1,0 +1,101 @@
+@page "/C_ProductosDetalles"
+
+<EditForm Model="productos.ProductosDetalles">
+    <DataAnnotationsValidator />
+    <div class="card">
+        <div class="card-header">
+            <h3>Consulta de Detalles Producto</h3>
+        </div>
+        <div class="card-body">
+            <form>
+                <div class="input-group d-flex align-items-end">
+                    <div class="flex-fill mx-2">
+                        <label>Filtro</label>
+                        <select class="form-control col-2" @bind="Filtro">
+                            <option value="1">Producto Id</option>
+                            <option value="2">Descripcion</option>
+                            <option value="3">Presentacion</option>
+                        </select>
+                    </div>
+                    <div class="flex-fill mx-2">
+                        <label>Criterio</label>
+                        <input type="text" class="form-control" @bind="Criterio" />
+                    </div>
+
+                    <button type="button" class="btn btn-warning" @onclick="Buscar">
+                        <i class="oi oi-magnifying-glass mr-2"> Buscar</i>
+                    </button>
+                </div>
+            </form>
+        </div>
+        <table class="table table-light">
+            <thead class="thead">
+                <tr class="table">
+                    <th>Id</th>
+                    <th>Producto Id</th>
+                    <th>Descripcion</th>
+                    <th>Presentacion</th>
+                    <th>Precio</th>
+                    <th>Existencia de Empaque</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in listaD)
+                {
+                    <tr>
+                        <td>@item.Id</td>
+                        <td>@item.ProductoId</td>
+                        <td>@item.Descripcion</td>
+                        <td>@item.Presentacion</td>
+                        <td>@item.Precio</td>
+                        <td>@item.ExistenciaEmpaque</td>
+
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    </div>
+</EditForm>
+
+@code {
+
+    public Productos productos { get; set; } = new Productos();
+    public ProductosDetalles productosDetalles;
+    public List<ProductosDetalles> listaD = new List<ProductosDetalles>();
+
+    public string? Filtro { get; set; }
+    public string? Criterio { get; set; }
+    [Inject]
+    public ProductosBBL productoBBL { get; set; }
+
+
+    private void Buscar()
+    {
+    
+        if (Criterio != null)
+        {
+            switch (Filtro)
+            {
+                case "1":
+                    listaD = productoBBL.GetListD(p => p.ProductoId == int.Parse(Criterio));
+                    break;
+                case "2":
+                    listaD = productoBBL.GetListD(c => c.Descripcion.ToLower().Contains(Criterio.ToLower()));
+                    break;
+                case "3":
+                    listaD = productoBBL.GetListD(p => p.Presentacion.ToLower().Contains(Criterio.ToLower()));
+                    break;
+            }
+        }
+        else
+        {
+
+            listaD = productoBBL.GetListD(c => true);
+        }
+
+    }
+
+
+
+}

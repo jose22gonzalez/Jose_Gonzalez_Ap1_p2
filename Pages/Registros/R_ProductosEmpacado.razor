@@ -1,0 +1,152 @@
+@page "/R_ProductosEmpacado"
+
+<EditForm Model="productos" OnValidSubmit="Guardar">
+    <DataAnnotationsValidator />
+    <div class="container-fluid">
+        <div class="card">
+            <div class="card-header">
+                <h3>Entrada de Productos Empacados</h3>
+            </div>
+            <div class="card-body">
+                @*Id*@
+                <div class="form-row align-items-center">
+                    <div class="col">
+                        <div class="form-group">
+                            <label> Id</label>
+                            <div class="input-group">
+                                <InputNumber @bind-Value="Id" class="form-control" />
+                                <div>
+                                    <button type="submit" class="btn btn-primary input-group-text"
+                                        @onclick="Buscar">Buscar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @*Fecha de Caducidad*@
+                <div class="form-group">
+                    <label>Fecha</label>
+                    <input type="date" @bind-value="Fecha" class="form-control" />
+                </div>
+                @*Concepto*@
+                <div class="form-group">
+                    <label>Concepto</label>
+                    <InputText class="form-control" @bind-Value="Concepto" />
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    <h3>Utilizados</h3>
+                </div>
+                <div class="card-body">
+                    <div class="input-group d-flex align-items-end">
+                        <div class="flex-fill mx-2">
+                            <label>Producto</label>
+                            <InputText @bind-Value="producto" class="form-control" />
+                        </div>
+                        <div class="flex-fill mx-2">
+                            <label>Cantidad</label>
+                            <InputNumber @bind-Value="Cantidad" class="form-control" />
+                        </div>
+                        <div class="flex-fill mx-2">
+                            <button type="button" class="btn btn-lg btn-primary" @onclick="Agregar">Add</button>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="flex-fill mx-2">
+                            <table class="table table-bordered">
+                                <thead class="thead-darck">
+                                    <tr class="table-info">
+                                        <th>Productos</th>
+                                        <th>Descripcion</th>
+                                        <th>Cantidad</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in lista)
+                                    {
+                                        <tr>
+                                            <td>@item</td>
+                                            <td>@item</td>
+                                            <td>@item</td>
+                                            <td><span class="btn btn-sm btn-outline-primary oi oi-ban" href="#"  @onclick="@(() => RemoverFila(item))"> Remover</span> </td>
+                                        </tr>   
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    <h3>Producido</h3>
+                </div>
+                <div class="card-body">
+                    <div class="input-group d-flex align-items-end">
+                        <div class="flex-fill mx-2">
+                            <label>Producto</label>
+                            <InputText @bind-Value="producto" class="form-control" />
+                        </div>
+                        <div class="flex-fill mx-2">
+                            <label>Cantidad</label>
+                            <InputNumber @bind-Value="Cantidad" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                @*Botones de registros*@
+                <div class="form-group text-center" display: inline-block>
+                    <button type="submit" class="btn btn-lg btn-success oi oi-plus">Guardar</button>
+                    <button type="button" class="btn btn-lg btn-primary oi oi-loop-circular">Editar</button>
+                    <button type="button" class="btn btn-lg btn-danger oi oi-trash">Eliminar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</EditForm>
+
+@code
+{
+    public int Id { get; set; }
+    public DateTime? Fecha { get; set; } = null;
+    public string? Concepto { get; set; }
+    public string? producto { get; set; }
+    public int Cantidad { get; set; }
+
+    List<String> lista = new List<String>();
+
+    Productos productos = new Productos();
+
+    public void Buscar()
+    {
+
+    }
+
+    public void Agregar()
+    {
+        lista.Add(producto);
+        lista.Add(Cantidad.ToString());
+    }
+
+      private void RemoverFila(string item)
+    {
+        this.lista.Remove(item);
+    }
+
+    public void Guardar()
+    {
+
+    }
+
+    public void Editar()
+    {
+
+    }
+
+    public void Eliminar()
+    {
+
+    }
+}
