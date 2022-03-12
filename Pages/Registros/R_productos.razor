@@ -3,143 +3,147 @@
 
 @inject IToastService toastService
 
-<EditForm Model = "productos" OnValidSubmit = "Guardar">
+<EditForm Model="productos" OnValidSubmit="Guardar">
     <DataAnnotationsValidator />
-    <div class="card">
-        <div class="card-header">
-            <h3>Registro de Productos</h3>
-        </div>
-        <div class="card-body">
-            <form>
-                @*ProductoId*@
-                <div class="form-row align-items-center">
-                    <div class="col">
-                        <div class="form-group">
-                            <label>Producto Id</label>
-                            <div class="input-group">
-                                <InputNumber @bind-Value = "productos.ProductoId" class="form-control col-4"/>
-                                <div>
-                                    <button type="submit" class="btn btn-primary input-group-text" @onclick="Buscar">Buscar</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-               @*Descripcion*@
-               <div class="form-group">
-                   <label>Descripcion</label>
-                   <InputText class="form-control" @bind-Value = "productos.Descripcion"/>
-                   <ValidationMessage For="@(() =>productos.Descripcion)"/>
-               </div>
-                @*Existencia*@
-                <div class="form-group">
-                    <label>Existencia</label>
-                    <InputNumber @bind-Value = "productos.Existencia" class="form-control"/>
-                    <ValidationMessage For="@(() =>productos.Existencia)"/>
-                </div>
-
-                @*Fecha de Caducidad*@
-                <div class="form-group">
-                        <label>Fecha de Caducidad</label>
-                        <input type="date"  @bind-value="productos.FechaCaducidad" />
-                         <ValidationMessage For="@(() => productos.FechaCaducidad)" /> 
-                </div>
-
-
-                @*Costo*@
-                <div class="form-group">
-                    <label>Costo</label>
-                    <InputNumber @bind-Value = "productos.Costo" class="form-control"/>
-                    <ValidationMessage For="@(() =>productos.Costo)"/>
-                </div>
-                @*Valor Inventario*@
-                <div class="form-group">
-                    <label>Valor Inventario</label>
-                    <InputNumber  @bind-Value = "productos.ValorInventario" readonly class="form-control"/>
-                    <ValidationMessage For="@(() =>productos.ValorInventario)"/>
-                </div>
-                @*Ganancia*@
-                 <div class="form-row align-items-center">
-                    <div class="col">
-                        <div class="form-group">
-                            <label>Ganacia</label>
-                            <div class="input-group">
-                                <InputNumber readonly @bind-Value = "productos.Ganancia" class="form-control col-4"/>
-                                <div>
-                                   <span class="input-group-text">%</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                @*Precio*@
-                <div class="form-group">
-                    <label>Precio</label>
-                    <InputNumber @bind-Value = "productos.Precio" class="form-control"/>
-                    <ValidationMessage For="@(() =>productos.Precio)"/>
-                </div>
-                @*Peso*@
-                <div class="form-group">
-                    <label>Peso</label>
-                    <InputNumber @bind-Value = "productos.Peso" class="form-control"/>
-                </div>
-            </form>
+    <div className="Container">
+        <div class="card align-items-center">
             <div class="card">
                 <div class="card-header">
-                    <h3>Detalle de Productos</h3>
+                    <h3>Registro de Productos</h3>
                 </div>
-                <div>
+                <div class="card-body">
                     <form>
-                        <div class="input-group d-flex align-items-end">
-                            <div class="flex-fill mx-2">
-                                <label>Presentacion</label>
-                                <InputText class="form-control" @bind-Value="productosDetalles.Presentacion"/>
+                        @*ProductoId*@
+                        <div class="form-row align-items-center">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label>Producto Id</label>
+                                    <div class="input-group">
+                                        <InputNumber @bind-Value="productos.ProductoId" class="form-control col-4" />
+                                        <div>
+                                            <button type="submit" class="btn btn-primary input-group-text oi oi-magnifying-glass" @onclick="Buscar">Buscar</button>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="flex-fill mx-2">
-                                <label>Cantidad</label>
-                                <InputNumber class="form-control" @bind-Value="productosDetalles.Cantidad"/>
+                        </div>
+                        @*Descripcion*@
+                        <div class="form-group">
+                            <label>Descripcion</label>
+                            <InputText class="form-control" @bind-Value="productos.Descripcion" />
+                            <ValidationMessage For="@(() =>productos.Descripcion)" />
+                        </div>
+                        @*Existencia*@
+                        <div class="form-group">
+                            <label>Existencia</label>
+                            <InputNumber @bind-Value="productos.Existencia" class="form-control" />
+                            <ValidationMessage For="@(() =>productos.Existencia)" />
+                        </div>
+
+                        @*Fecha de Caducidad*@
+                        <div class="form-group">
+                            <label>Fecha de Caducidad</label>
+                            <input type="date" @bind-value="productos.FechaCaducidad" />
+                            <ValidationMessage For="@(() => productos.FechaCaducidad)" />
+                        </div>
+
+
+                        @*Costo*@
+                        <div class="form-group">
+                            <label>Costo</label>
+                            <InputNumber @bind-Value="productos.Costo" class="form-control" />
+                            <ValidationMessage For="@(() =>productos.Costo)" />
+                        </div>
+                        @*Valor Inventario*@
+                        <div class="form-group">
+                            <label>Valor Inventario</label>
+                            <InputNumber @bind-Value="productos.ValorInventario" readonly class="form-control" />
+                            <ValidationMessage For="@(() =>productos.ValorInventario)" />
+                        </div>
+                        @*Ganancia*@
+                        <div class="form-row align-items-center">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label>Ganacia</label>
+                                    <div class="input-group">
+                                        <InputNumber readonly @bind-Value="productos.Ganancia"
+                                            class="form-control col-4" />
+                                        <div>
+                                            <span class="input-group-text">%</span>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="flex-fill mx-2">
-                                <label>Precio</label>
-                                <InputNumber class="form-control" @bind-Value="productosDetalles.Precio"/>
-                            </div>
-                            <div class="flex-fill mx-2">
-                                <button type="button" class="btn btn-lg btn-primary" @onclick="AgregarDetalle">AgregarDetalle</button>
-                            </div>
+                        </div>
+                        @*Precio*@
+                        <div class="form-group">
+                            <label>Precio</label>
+                            <InputNumber @bind-Value="productos.Precio" class="form-control" />
+                            <ValidationMessage For="@(() =>productos.Precio)" />
+                        </div>
+                        @*Peso*@
+                        <div class="form-group">
+                            <label>Peso</label>
+                            <InputNumber @bind-Value="productos.Peso" class="form-control" />
                         </div>
                     </form>
-                    <div>
-                        <div>
-                            <table class="table -table-secondary">
-                                <thead class="thead-darck">
-                                    <tr class="table-info">
-                                        <th>Descripcion</th>
-                                        <th>Presentacion</th>
-                                        <th>Cantidad</th>
-                                        <th>Precio</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach (var item in productos.ProductosDetalles)
-                                    {
-                                        <tr>
-                                            <td>@item.Descripcion</td>
-                                            <td>@item.Presentacion</td>
-                                            <td>@item.Cantidad</td>
-                                            <td>RD$@item.Precio</td>
-                                            <td><span class="btn btn-sm btn-outline-primary oi oi-ban" href="#"  @onclick="@(() => RemoverFila(item))"> Remover</span> </td>
-                                        </tr>
-                                    }
-                                </tbody>
-                            </table>
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>Detalle de Productos</h3>
                         </div>
-                    </div>
-                    <div class="card-footer">
-                        @*Botones de registros*@
-                        <div class="form-group text-center" display: inline-block>
-                            <button type="button" class="btn btn-lg btn-primary oi oi-loop-circular" @onclick="Nuevo">Nuevo</button>
-                            <button type="submit" class="btn btn-lg btn-success oi oi-plus">Guardar</button>
-                            <button type="button" class="btn btn-lg btn-danger oi oi-trash" @onclick="Eliminar">Eliminar</button>
+                        <div>
+                            <form>
+                                <div class="input-group d-flex align-items-end">
+                                    <div class="flex-fill mx-2">
+                                        <label>Presentacion</label>
+                                        <InputText class="form-control" @bind-Value="productosDetalles.Presentacion" />
+                                    </div>
+                                    <div class="flex-fill mx-2">
+                                        <label>Cantidad</label>
+                                        <InputNumber class="form-control" @bind-Value="productosDetalles.Cantidad" />
+                                    </div>
+                                    <div class="flex-fill mx-2">
+                                        <label>Precio</label>
+                                        <InputNumber class="form-control" @bind-Value="productosDetalles.Precio" />
+                                    </div>
+                                    <div class="flex-fill mx-2">
+                                        <button type="button" class="btn btn-lg btn-primary oi oi-plus" @onclick="AgregarDetalle">Add</button>
+                                    </div>
+                                </div>
+                            </form>
+                            <div>
+                                <div>
+                                    <table class="table -table-secondary">
+                                        <thead class="thead-darck">
+                                            <tr class="table-info">
+                                                <th>Presentacion</th>
+                                                <th>Cantidad</th>
+                                                <th>Precio</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var item in productos.ProductosDetalles)
+                                            {
+                                                <tr>
+                                                    <td>@item.Presentacion</td>
+                                                    <td>@item.Cantidad</td>
+                                                    <td>RD$@item.Precio</td>
+                                                    <td><span class="btn btn-sm btn-outline-primary oi oi-ban" href="#"
+                                                        @onclick="@(() => RemoverFila(item))"> Remover</span> </td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                @*Botones de registros*@
+                                <div class="form-group text-center" display: inline-block>
+                                    <button type="submit" class="btn btn-lg btn-success oi oi-plus">Guardar</button>
+                                    <button type="button" class="btn btn-lg btn-primary oi oi-pencil" @onclick="Editar">Editar</button>
+                                    <button type="button" class="btn btn-lg btn-danger oi oi-trash"@onclick="Eliminar">Eliminar</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -169,7 +173,7 @@
 
     public void Calcular()
     {
-        productos.Ganancia = ((productos.Precio - (int)productos.Costo)* 100) / (int)productos.Costo;
+        productos.Ganancia = ((productos.Precio - (int)productos.Costo) * 100) / (int)productos.Costo;
         productos.ValorInventario = productos.Costo * productos.Existencia;
     }
 
@@ -196,10 +200,10 @@
         }
     }
 
-  
+
     public void AgregarDetalle()
     {
-       
+
         this.productos.ProductosDetalles.Add(productosDetalles);
         CalcularEmpaque();
     }
@@ -216,11 +220,11 @@
 
     public void Guardar()
     {
-         if (!productosBLL.Existe(productos.ProductoId))
+        if (!productosBLL.Existe(productos.ProductoId))
         {
             if (!productosBLL.Existe(productos.Descripcion))
             {
-               
+
                 Calcular();
                 productosDetalles.Descripcion = productos.Descripcion;
                 productosBLL.Guardar(productos);
@@ -241,11 +245,16 @@
 
     }
 
+    public void Editar()
+    {
+
+    }
+
     public void Eliminar()
     {
         bool eliminado;
         eliminado = productosBLL.Eliminar(productos.ProductoId);
-        if(eliminado)
+        if (eliminado)
         {
             Nuevo();
             toastService.ShowSuccess("Eliminación exitosa");

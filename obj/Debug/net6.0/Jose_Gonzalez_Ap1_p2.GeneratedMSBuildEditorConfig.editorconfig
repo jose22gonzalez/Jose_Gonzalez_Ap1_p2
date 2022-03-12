@@ -8,61 +8,61 @@ build_property.PlatformNeutralAssembly =
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = Jose_Gonzalez_Ap1_p2
 build_property.RootNamespace = Jose_Gonzalez_Ap1_p2
-build_property.ProjectDir = E:\Clases 2022\Semestre-1-2022\Segundo Parcial\Jose_Gonzalez_Ap1_p2\
+build_property.ProjectDir = e:\Clases 2022\Semestre-1-2022\Segundo Parcial\Jose_Gonzalez_Ap1_p2\
 build_property.RazorLangVersion = 6.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = E:\Clases 2022\Semestre-1-2022\Segundo Parcial\Jose_Gonzalez_Ap1_p2
+build_property.MSBuildProjectDirectory = e:\Clases 2022\Semestre-1-2022\Segundo Parcial\Jose_Gonzalez_Ap1_p2
 build_property._RazorSourceGeneratorDebug = 
 
-[E:/Clases 2022/Semestre-1-2022/Segundo Parcial/Jose_Gonzalez_Ap1_p2/App.razor]
+[e:/Clases 2022/Semestre-1-2022/Segundo Parcial/Jose_Gonzalez_Ap1_p2/App.razor]
 build_metadata.AdditionalFiles.TargetPath = QXBwLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
-[E:/Clases 2022/Semestre-1-2022/Segundo Parcial/Jose_Gonzalez_Ap1_p2/Pages/Consultas/C_Productos.razor]
+[e:/Clases 2022/Semestre-1-2022/Segundo Parcial/Jose_Gonzalez_Ap1_p2/Pages/Consultas/C_Productos.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29uc3VsdGFzXENfUHJvZHVjdG9zLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
-[E:/Clases 2022/Semestre-1-2022/Segundo Parcial/Jose_Gonzalez_Ap1_p2/Pages/Consultas/C_ProductosDetalles.razor]
+[e:/Clases 2022/Semestre-1-2022/Segundo Parcial/Jose_Gonzalez_Ap1_p2/Pages/Consultas/C_ProductosDetalles.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29uc3VsdGFzXENfUHJvZHVjdG9zRGV0YWxsZXMucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[E:/Clases 2022/Semestre-1-2022/Segundo Parcial/Jose_Gonzalez_Ap1_p2/Pages/Index.razor]
+[e:/Clases 2022/Semestre-1-2022/Segundo Parcial/Jose_Gonzalez_Ap1_p2/Pages/Index.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSW5kZXgucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[E:/Clases 2022/Semestre-1-2022/Segundo Parcial/Jose_Gonzalez_Ap1_p2/Pages/Registros/R_productos.razor]
+[e:/Clases 2022/Semestre-1-2022/Segundo Parcial/Jose_Gonzalez_Ap1_p2/Pages/Registros/R_productos.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUmVnaXN0cm9zXFJfcHJvZHVjdG9zLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
-[E:/Clases 2022/Semestre-1-2022/Segundo Parcial/Jose_Gonzalez_Ap1_p2/Pages/Registros/R_ProductosEmpacado.razor]
+[e:/Clases 2022/Semestre-1-2022/Segundo Parcial/Jose_Gonzalez_Ap1_p2/Pages/Registros/R_ProductosEmpacado.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUmVnaXN0cm9zXFJfUHJvZHVjdG9zRW1wYWNhZG8ucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[E:/Clases 2022/Semestre-1-2022/Segundo Parcial/Jose_Gonzalez_Ap1_p2/Shared/SurveyPrompt.razor]
+[e:/Clases 2022/Semestre-1-2022/Segundo Parcial/Jose_Gonzalez_Ap1_p2/Shared/SurveyPrompt.razor]
 build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXFN1cnZleVByb21wdC5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
-[E:/Clases 2022/Semestre-1-2022/Segundo Parcial/Jose_Gonzalez_Ap1_p2/_Imports.razor]
+[e:/Clases 2022/Semestre-1-2022/Segundo Parcial/Jose_Gonzalez_Ap1_p2/_Imports.razor]
 build_metadata.AdditionalFiles.TargetPath = X0ltcG9ydHMucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[E:/Clases 2022/Semestre-1-2022/Segundo Parcial/Jose_Gonzalez_Ap1_p2/Shared/MainLayout.razor]
+[e:/Clases 2022/Semestre-1-2022/Segundo Parcial/Jose_Gonzalez_Ap1_p2/Shared/MainLayout.razor]
 build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXE1haW5MYXlvdXQucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = b-ax70bkpjhe
 
-[E:/Clases 2022/Semestre-1-2022/Segundo Parcial/Jose_Gonzalez_Ap1_p2/Shared/NavMenu.razor]
+[e:/Clases 2022/Semestre-1-2022/Segundo Parcial/Jose_Gonzalez_Ap1_p2/Shared/NavMenu.razor]
 build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXE5hdk1lbnUucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = b-0iihdbpgn2
 
-[E:/Clases 2022/Semestre-1-2022/Segundo Parcial/Jose_Gonzalez_Ap1_p2/Pages/Error.cshtml]
+[e:/Clases 2022/Semestre-1-2022/Segundo Parcial/Jose_Gonzalez_Ap1_p2/Pages/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRXJyb3IuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[E:/Clases 2022/Semestre-1-2022/Segundo Parcial/Jose_Gonzalez_Ap1_p2/Pages/_Host.cshtml]
+[e:/Clases 2022/Semestre-1-2022/Segundo Parcial/Jose_Gonzalez_Ap1_p2/Pages/_Host.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcX0hvc3QuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[E:/Clases 2022/Semestre-1-2022/Segundo Parcial/Jose_Gonzalez_Ap1_p2/Pages/_Layout.cshtml]
+[e:/Clases 2022/Semestre-1-2022/Segundo Parcial/Jose_Gonzalez_Ap1_p2/Pages/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcX0xheW91dC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
