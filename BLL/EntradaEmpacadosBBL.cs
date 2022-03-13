@@ -1,3 +1,5 @@
+using System.Reflection.Metadata;
+using System.Diagnostics.Tracing;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
@@ -35,63 +37,72 @@ namespace Jose_Gonzalez_Ap1_p2.BLL
 
         public bool Guardar(EntradasEmpacados entrada)
         {
-            
-            /*if(Existe(entrada.Id))
+            if(Existe(entrada.Id))
                 return Modificar(entrada);
             else
-                return Insertar(entrada);*/
-                return true;
+                return Insertar(entrada);
         }
 
-         private bool Insertar(EntradasEmpacados entrada)
+          private bool Insertar(EntradasEmpacados entrada)
         {
-            bool paso = false;
+             bool paso = false;
             try
             {
+               
+
+                
                 _contexto.EntradasEmpacados.Add(entrada);
-                foreach (var detalle in producto.ProductosDetalles)
+                /*foreach (var detalle in producto.ProductosDetalles)
                 {
                     _contexto.Entry(detalle).State = EntityState.Added;
                     _contexto.Entry(detalle.Cantidad).State = EntityState.Modified;
-                   //producto.Existencia -= detalle.Cantidad;
+                   producto.Existencia -= detalle.Cantidad;
                 }
 
-                var producido = _contexto.Productos.Find(entrada.Id).Existencia += entrada.Cantidad;
+                var producido = _contexto.Productos.Find(entrada.Id).Existencia += entrada.Cantidad;*/
                 paso = _contexto.SaveChanges() > 0;
+                
             }catch(Exception)
             {
                 throw;
             }
 
             return paso;
-        }
-
-        private bool Modificar(EntradasEmpacados entrada)
-        {
+            /*
             bool paso = false;
             try
             {
-                var entradaAnterior = _contexto.EntradasEmpacados
-                    .Where(e => e.Id == entrada.Id)
-                    .Include(e => e.ProductosDetalles)
-                    .ThenInclude(e => e.Productos)
-                    .AsNoTracking()
-                    .SingleOrDefault();
-                
-                foreach (var detalle in entradaAnterior.ProductosDetalles)
-                {
-                    detalle.Productos.Existencia += detalle.Cantidad;
-                }
-
-                  _contexto.Database.ExecuteSqlRaw($"Delete FROM ProductosDetalles where ProductoId={productos.ProductoId}");
-
+                _contexto.EntradasEmpacados.Add(entrada);
+                paso = _contexto.SaveChanges() > 0;
             }
-            catch(Exception)
+            catch (Exception)
             {
                 throw;
             }
+
+            return paso;*/
+        }        
+        private bool Modificar(EntradasEmpacados entrada)
+        {
+            bool paso = false;
+            Productos productos = new Productos();
+            try
+            {
+                _contexto.Database.ExecuteSqlRaw($"Delete FROM EntradasEmpacados where Id={entrada.Id}");
+                  foreach (var anterior in productos.ProductosDetalles)
+                {
+                    _contexto.Entry(anterior).State = EntityState.Added;
+                }
+                
+                _contexto.Entry(entrada).State = EntityState.Modified;
+                paso = _contexto.SaveChanges() > 0;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+            return paso;
         }
-
-
     }
 }

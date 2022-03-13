@@ -21,7 +21,9 @@
                                     <div class="input-group">
                                         <InputNumber @bind-Value="productos.ProductoId" class="form-control col-4" />
                                         <div>
-                                            <button type="submit" class="btn btn-primary input-group-text oi oi-magnifying-glass" @onclick="Buscar">Buscar</button>
+                                            <button type="submit"
+                                                class="btn btn-primary input-group-text oi oi-magnifying-glass"
+                                                @onclick="Buscar">Buscar</button>
                                         </div>
                                     </div>
                                 </div>
@@ -40,12 +42,7 @@
                             <ValidationMessage For="@(() =>productos.Existencia)" />
                         </div>
 
-                        @*Fecha de Caducidad*@
-                        <div class="form-group">
-                            <label>Fecha de Caducidad</label>
-                            <input type="date" @bind-value="productos.FechaCaducidad" />
-                            <ValidationMessage For="@(() => productos.FechaCaducidad)" />
-                        </div>
+
 
 
                         @*Costo*@
@@ -86,6 +83,14 @@
                             <label>Peso</label>
                             <InputNumber @bind-Value="productos.Peso" class="form-control" />
                         </div>
+                        @*Fecha de Caducidad*@
+                        <div class="form-group">
+                            <div class="gorm-group col">
+                                <label>Fecha de Caducidad</label>
+                                <InputDate class="form-control" @bind-Value="productos.FechaCaducidad" />
+                                <ValidationMessage For="@(() => productos.FechaCaducidad)"/>
+                            </div>
+                        </div>
                     </form>
                     <div class="card">
                         <div class="card-header">
@@ -107,7 +112,8 @@
                                         <InputNumber class="form-control" @bind-Value="productosDetalles.Precio" />
                                     </div>
                                     <div class="flex-fill mx-2">
-                                        <button type="button" class="btn btn-lg btn-primary oi oi-plus" @onclick="AgregarDetalle">Add</button>
+                                        <button type="button" class="btn btn-lg btn-primary oi oi-plus"
+                                            @onclick="AgregarDetalle">Add</button>
                                     </div>
                                 </div>
                             </form>
@@ -140,8 +146,10 @@
                                 @*Botones de registros*@
                                 <div class="form-group text-center" display: inline-block>
                                     <button type="submit" class="btn btn-lg btn-success oi oi-plus">Guardar</button>
-                                    <button type="button" class="btn btn-lg btn-primary oi oi-pencil" @onclick="Editar">Editar</button>
-                                    <button type="button" class="btn btn-lg btn-danger oi oi-trash"@onclick="Eliminar">Eliminar</button>
+                                    <button type="button" class="btn btn-lg btn-primary oi oi-pencil"
+                                        @onclick="Editar">Editar</button>
+                                    <button type="button" class="btn btn-lg btn-danger oi oi-trash"
+                                        @onclick="Eliminar">Eliminar</button>
                                 </div>
                             </div>
                         </div>
@@ -220,9 +228,9 @@
 
     public void Guardar()
     {
-        if (!productosBLL.Existe(productos.ProductoId))
+        if (productosBLL.Existe(productos.ProductoId))
         {
-            if (!productosBLL.Existe(productos.Descripcion))
+            if (productosBLL.Existe(productos.Descripcion))
             {
 
                 Calcular();

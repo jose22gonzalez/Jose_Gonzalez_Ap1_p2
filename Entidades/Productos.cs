@@ -33,5 +33,6 @@ namespace Jose_Gonzalez_Ap1_p2.Entidades
       
         [ForeignKey("ProductoId")]
         public virtual List<ProductosDetalles> ProductosDetalles {get; set;} = new List<ProductosDetalles>();
+       
     }
 }

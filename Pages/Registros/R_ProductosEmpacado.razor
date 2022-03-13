@@ -1,5 +1,5 @@
 @page "/R_ProductosEmpacado"
-
+@inject IToastService toastService
 <EditForm Model="entradasEmpacados" OnValidSubmit="Guardar">
     <DataAnnotationsValidator />
     <div className="container">
@@ -44,24 +44,21 @@
                     <div class="card-body">
                         <div class="input-group d-flex align-items-end">
                             <div class="flex-fill mx-2">
-                              <label>Producto</label>
-                                      @*<InputText @bind-Value="producto" class="form-control" />
+                                <label>Producto</label>
+                                <InputSelect @bind-Value="productos.ProductoId" class="form-control">
 
-                                <label>Productos</label>
-                                <select class="form-control col-2" @bind="producto">
-                                    <option value="o"></option>
-                                    <option value="2">Producto</option>
-                                </select>*@
-                                <InputSelect @bind-Value = "productos.ProductoId" class="form-control">
                                     @foreach (var item in lista)
                                     {
+
                                         <option value="@item.ProductoId">@item.Descripcion</option>
+
                                     }
+
                                 </InputSelect>
                             </div>
                             <div class="flex-fill mx-2">
                                 <label>Cantidad</label>
-                                <InputNumber @bind-Value="Cantidad" class="form-control" />
+                                <InputNumber @bind-Value="entradasEmpacados.Cantidad" class="form-control" />
                             </div>
                             <div class="flex-fill mx-2">
                                 <button type="button" class="btn btn-lg btn-primary oi oi-plus"
@@ -75,18 +72,21 @@
                                         <tr class="table-info">
                                             <th>Producto Id</th>
                                             <th>Descripcion</th>
-                                            <th>Cantidad</th>
+                                            <th>Existencia</th>
                                         </tr>
                                     </thead>
                                     <tbody>
+
+
                                         @foreach (var item in lista)
                                         {
+
                                             <tr>
                                                 <td>@item.ProductoId</td>
                                                 <td>@item.Descripcion</td>
                                                 <td>@item.Existencia</td>
-                                                @*<td><span class="btn btn-sm btn-outline-primary oi oi-ban" href="#"
-                                                    @onclick="@(() => RemoverFila(item))"> Remover</span> </td>*@
+                                                <td><span class="btn btn-sm btn-outline-primary oi oi-ban" href="#"
+                                                    @onclick="@(() => RemoverFila(item))"> Remover</span> </td>
                                             </tr>
                                         }
 
@@ -98,7 +98,7 @@
                         </div>
                     </div>
                 </div>
-                
+
                 @*Producido*@
                 <div class="card">
                     <div class="card-header">
@@ -108,11 +108,11 @@
                         <div class="input-group d-flex align-items-end">
                             <div class="flex-fill mx-2">
                                 <label>Producto</label>
-                                <InputText @bind-Value="producto" class="form-control" />
+                                <InputText @bind-Value="entradasEmpacados.Producto" class="form-control" />
                             </div>
                             <div class="flex-fill mx-2">
                                 <label>Cantidad</label>
-                                <InputNumber @bind-Value="Cantidad" class="form-control" />
+                                <InputNumber @bind-Value="entradasEmpacados.Cantidad" class="form-control" />
                             </div>
                         </div>
                     </div>
@@ -132,19 +132,31 @@
 
 @code
 {
-    EntradasEmpacados entradasEmpacados = new EntradasEmpacados();
-    public string? producto { get; set; }
-    public int Cantidad { get; set; }
+    public EntradasEmpacados entradasEmpacados = new EntradasEmpacados();
+    List<EntradasEmpacados> listaEE = new List<EntradasEmpacados>();
+    public List<ProductosDetalles> listaDe = new List<ProductosDetalles>();
 
     public List<Productos> lista = new List<Productos>();
     [Inject]
     public ProductosBBL productoBBL { get; set; }
 
+    [Inject]
+    public EntradaEmpacadosBBL entradaEmpacadosbbl { get; set; }
+
     Productos productos = new Productos();
+    ProductosDetalles productosDetalles = new ProductosDetalles();
+    public string? productoid { get; set; }
 
     protected override void OnInitialized()
     {
-       lista = productoBBL.GetList(c => true);
+        lista = productoBBL.GetList(c => true);
+
+        //listaDe = productoBBL.GetListD(c => true);
+    }
+
+    public void Limpiar()
+    {
+        EntradasEmpacados entradasEmpacados = new EntradasEmpacados();
     }
 
     public void Buscar()
@@ -154,18 +166,30 @@
 
     public void Agregar()
     {
-        /*lista.Add(producto);
-        lista.Add(Cantidad.ToString());*/
+
+        productoid = productos.ProductoId.ToString();
+        entradasEmpacados.Producto = productoid;
+        int exi = 0;
+        exi = (int)productos.Existencia - entradasEmpacados.Cantidad;
+        productos.Existencia  = exi;
+        listaEE.Add(entradasEmpacados);
+        lista = productoBBL.GetList(p => p.ProductoId == int.Parse(productoid));
     }
 
-    private void RemoverFila(string item)
+    private void RemoverFila(Productos item)
     {
-        //this.lista.Remove(item); hhhh
+
+        this.lista.Remove(item);
+        lista = productoBBL.GetList(c => true);
+
     }
 
-    public void Guardar()
+    private void Guardar()
     {
-
+        entradaEmpacadosbbl.Guardar(entradasEmpacados);
+        toastService.ShowSuccess("Se a Guardado correctamente");
+        Limpiar();
+       
     }
 
     public void Editar()

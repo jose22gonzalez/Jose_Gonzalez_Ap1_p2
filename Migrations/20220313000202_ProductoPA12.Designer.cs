@@ -11,13 +11,36 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Jose_Gonzalez_Ap1_p2.Migrations
 {
     [DbContext(typeof(Contexto))]
-    [Migration("20220311225210_ProductoPA12")]
+    [Migration("20220313000202_ProductoPA12")]
     partial class ProductoPA12
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "6.0.3");
+
+            modelBuilder.Entity("Jose_Gonzalez_Ap1_p2.Entidades.EntradasEmpacados", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("Cantidad")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Concepto")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("Fecha")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Producto")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("EntradasEmpacados");
+                });
 
             modelBuilder.Entity("Jose_Gonzalez_Ap1_p2.Entidades.Productos", b =>
                 {
@@ -35,7 +58,7 @@ namespace Jose_Gonzalez_Ap1_p2.Migrations
                     b.Property<double>("Existencia")
                         .HasColumnType("REAL");
 
-                    b.Property<DateTime>("FechaCaducidad")
+                    b.Property<DateTime?>("FechaCaducidad")
                         .HasColumnType("TEXT");
 
                     b.Property<int>("Ganancia")
@@ -61,8 +84,8 @@ namespace Jose_Gonzalez_Ap1_p2.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<decimal>("Cantidad")
-                        .HasColumnType("TEXT");
+                    b.Property<double>("Cantidad")
+                        .HasColumnType("REAL");
 
                     b.Property<string>("Descripcion")
                         .HasColumnType("TEXT");

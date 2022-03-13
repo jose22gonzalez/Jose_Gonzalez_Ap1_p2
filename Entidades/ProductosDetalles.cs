@@ -13,10 +13,9 @@ namespace Jose_Gonzalez_Ap1_p2.Entidades
         public int ProductoId { get; set; }
         public string? Descripcion {get; set;}
         public string? Presentacion { get; set; }
-        public decimal Cantidad { get; set; }
+        public double Cantidad { get; set; }
         public decimal Precio { get; set; }
         public decimal ExistenciaEmpaque {get; set;}
-
 
     }
 

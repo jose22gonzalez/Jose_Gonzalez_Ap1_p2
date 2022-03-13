@@ -1,3 +1,4 @@
+using System.Collections.Immutable;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Jose_Gonzalez_Ap1_p2.Data;
@@ -20,6 +21,7 @@ builder.Services.AddDbContext<Contexto>(options =>
     );
 
 builder.Services.AddTransient<ProductosBBL>();
+builder.Services.AddTransient<EntradaEmpacadosBBL>();
 
 var app = builder.Build();
 

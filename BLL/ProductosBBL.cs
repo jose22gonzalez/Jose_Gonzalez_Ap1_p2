@@ -84,10 +84,6 @@ namespace Jose_Gonzalez_Ap1_p2.BLL
             {
                 throw;
             }
-            finally
-            {
-                _contexto.Dispose();
-            }
 
             return paso;
         }

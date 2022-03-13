@@ -10,6 +10,22 @@ namespace Jose_Gonzalez_Ap1_p2.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "EntradasEmpacados",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Fecha = table.Column<DateTime>(type: "TEXT", nullable: true),
+                    Concepto = table.Column<string>(type: "TEXT", nullable: true),
+                    Producto = table.Column<string>(type: "TEXT", nullable: true),
+                    Cantidad = table.Column<int>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_EntradasEmpacados", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Productos",
                 columns: table => new
                 {
@@ -17,7 +33,7 @@ namespace Jose_Gonzalez_Ap1_p2.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     Descripcion = table.Column<string>(type: "TEXT", nullable: false),
                     Existencia = table.Column<double>(type: "REAL", nullable: false),
-                    FechaCaducidad = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    FechaCaducidad = table.Column<DateTime>(type: "TEXT", nullable: true),
                     Costo = table.Column<double>(type: "REAL", nullable: false),
                     ValorInventario = table.Column<double>(type: "REAL", nullable: false),
                     Ganancia = table.Column<int>(type: "INTEGER", nullable: false),
@@ -38,7 +54,7 @@ namespace Jose_Gonzalez_Ap1_p2.Migrations
                     ProductoId = table.Column<int>(type: "INTEGER", nullable: false),
                     Descripcion = table.Column<string>(type: "TEXT", nullable: true),
                     Presentacion = table.Column<string>(type: "TEXT", nullable: true),
-                    Cantidad = table.Column<decimal>(type: "TEXT", nullable: false),
+                    Cantidad = table.Column<double>(type: "REAL", nullable: false),
                     Precio = table.Column<decimal>(type: "TEXT", nullable: false),
                     ExistenciaEmpaque = table.Column<decimal>(type: "TEXT", nullable: false)
                 },
@@ -61,6 +77,9 @@ namespace Jose_Gonzalez_Ap1_p2.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "EntradasEmpacados");
+
             migrationBuilder.DropTable(
                 name: "ProductosDetalles");
 
