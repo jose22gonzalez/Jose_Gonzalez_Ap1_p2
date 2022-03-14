@@ -1,0 +1,109 @@
+@page "/C_EntradasEmpaque"
+
+<EditForm Model="listaE">
+    <DataAnnotationsValidator />
+    <div class="card">
+        <div class="card-header">
+            <h3>Consulta de Entrada Empaquetado</h3>
+        </div>
+        <div class="card-body">
+            <form>
+                <div class="input-group d-flex align-items-end">
+                    <div class="flex-fill mx-2">
+                        <label>Filtro</label>
+                        <select class="form-control col-2" @bind="Filtro">
+                            <option value="1">Id</option>
+                            <option value="2">Fecha</option>
+                            <option value="3">Concepto</option>
+                            <option value="4">Producto</option>
+                            <option value="5">Cantidad</option>
+                        </select>
+                    </div>
+                    <div class="flex-fill mx-2">
+                        <label>Criterio</label>
+                        <input type="text" class="form-control" @bind="Criterio" />
+                    </div>
+                    <div class="flex-fill mx-2">
+                        <label>Filtra por Fecha</label>
+                        <input type="date" class="form-control" @bind="FechasC" />
+                    </div>
+
+                    
+                    <button type="button" class="btn btn-warning" @onclick="Buscar">
+                        <i class="oi oi-magnifying-glass mr-2"> Buscar</i>
+                    </button>
+                </div>
+            </form>
+        </div>
+        <table class="table table-bordered">
+            <thead  class="thead-darck">
+                <tr class="table">
+                    <th>Id</th>
+                    <th>Fecha</th>
+                    <th>Concepto</th>
+                    <th>Producto</th>
+                    <th>Cantidad</th>
+                </tr>
+            </thead>
+            <tbody>
+                 @foreach (var item in listaE)
+                {
+                    <tr>
+                        <td>@item.Id</td>
+                        <td>@item.Fecha</td>
+                        <td>@item.Concepto</td>
+                        <td>@item.Producto</td>
+                        <td>@item.Cantidad</td>
+
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</EditForm>
+
+@code {
+    public string? Filtro { get; set; }
+    public string? Criterio { get; set; }
+    public DateTime? FechasC { get; set; } = null;
+
+    public List<EntradasEmpacados> listaE = new List<EntradasEmpacados>();
+
+     [Inject]
+    public EntradaEmpacadosBBL entradaEmpacadoaBBL { get; set; }
+
+
+    private void Buscar()
+    {
+        if (Criterio != null)
+        {
+            switch (Filtro)
+            {
+               case "1":
+                    listaE = entradaEmpacadoaBBL.GetListEntradaE(p => p.Id == int.Parse(Criterio));
+                    break;
+                case "2":
+                    listaE = entradaEmpacadoaBBL.GetListEntradaE(c => c.Fecha.ToString().ToLower().Contains(FechasC.ToString().ToLower()));
+                    break;
+                case "3":
+                    listaE = entradaEmpacadoaBBL.GetListEntradaE(p => p.Concepto.ToLower().Contains(Criterio.ToLower()));
+                    break;
+                case "4":
+                    listaE = entradaEmpacadoaBBL.GetListEntradaE(p => p.Producto.ToLower().Contains(Criterio.ToLower()));
+                    break;
+                case "5":
+                    listaE = entradaEmpacadoaBBL.GetListEntradaE(p => p.Cantidad == int.Parse(Criterio));
+                    break;
+            }
+        }
+        else
+        {
+            listaE = entradaEmpacadoaBBL.GetListEntradaE(c => true);
+        }
+    }
+
+
+
+
+
+}
