@@ -16,6 +16,7 @@ namespace Jose_Gonzalez_Ap1_p2.Entidades
         public string? Concepto { get; set; }
         public string? Producto { get; set; }
         public int Cantidad { get; set; }
+      
 
     }
 }

@@ -18,7 +18,7 @@ namespace Jose_Gonzalez_Ap1_p2.Entidades
 
         [Required(ErrorMessage = "Es obligatorio Introducir la existencia")]
         [Range(1, int.MaxValue, ErrorMessage = "La existencia debe ser Mayor o igual 1")]
-        public double Existencia { get; set; }
+        public int Existencia { get; set; }
         public DateTime? FechaCaducidad {get; set;} = null;
 
         [Range(1, int.MaxValue, ErrorMessage ="La existencia debe ser Mayor o igual 1")]
@@ -33,6 +33,5 @@ namespace Jose_Gonzalez_Ap1_p2.Entidades
       
         [ForeignKey("ProductoId")]
         public virtual List<ProductosDetalles> ProductosDetalles {get; set;} = new List<ProductosDetalles>();
-       
     }
 }

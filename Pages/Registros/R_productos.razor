@@ -145,11 +145,9 @@
                             <div class="card-footer">
                                 @*Botones de registros*@
                                 <div class="form-group text-center" display: inline-block>
+                                     <button type="button" class="btn btn-lg btn-primary oi oi-pencil" @onclick="Nuevo">Editar</button>
                                     <button type="submit" class="btn btn-lg btn-success oi oi-plus">Guardar</button>
-                                    <button type="button" class="btn btn-lg btn-primary oi oi-pencil"
-                                        @onclick="Editar">Editar</button>
-                                    <button type="button" class="btn btn-lg btn-danger oi oi-trash"
-                                        @onclick="Eliminar">Eliminar</button>
+                                    <button type="button" class="btn btn-lg btn-danger oi oi-trash"@onclick="Eliminar">Eliminar</button>
                                 </div>
                             </div>
                         </div>
@@ -179,10 +177,13 @@
         Buscar();
     }
 
-    public void Calcular()
+    public void CalcularInventario()
+    {
+        productos.ValorInventario = productos.Costo * productos.Existencia;
+    }
+    public void CalcularGanancia()
     {
         productos.Ganancia = ((productos.Precio - (int)productos.Costo) * 100) / (int)productos.Costo;
-        productos.ValorInventario = productos.Costo * productos.Existencia;
     }
 
     public void CalcularEmpaque()
@@ -198,6 +199,7 @@
             if (encontrado != null)
             {
                 this.productos = encontrado;
+                
                 toastService.ShowSuccess("A sido encontrado producto con exitos ");
 
             }
@@ -228,36 +230,15 @@
 
     public void Guardar()
     {
-        if (productosBLL.Existe(productos.ProductoId))
-        {
-            if (productosBLL.Existe(productos.Descripcion))
-            {
 
-                Calcular();
-                productosDetalles.Descripcion = productos.Descripcion;
-                productosBLL.Guardar(productos);
-                toastService.ShowSuccess("Se ha guardado con exito el producto");
-                Nuevo();
-
-            }
-            else
-            {
-                toastService.ShowError("No se puede repitir la Descripcion");
-            }
-
-        }
-        else
-        {
-            toastService.ShowError("No se puede repetir el Producto Id");
-        }
+        CalcularInventario();
+        CalcularGanancia();
+        productosDetalles.Descripcion = productos.Descripcion;
+        productosBLL.Guardar(productos);
+        toastService.ShowSuccess("Se ha guardado con exito el producto");
+        Nuevo();
 
     }
-
-    public void Editar()
-    {
-
-    }
-
     public void Eliminar()
     {
         bool eliminado;
@@ -272,7 +253,4 @@
             toastService.ShowSuccess("No se pudo eliminar con exito");
         }
     }
-
-
-
 }

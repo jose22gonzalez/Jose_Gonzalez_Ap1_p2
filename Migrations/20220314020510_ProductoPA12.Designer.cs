@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Jose_Gonzalez_Ap1_p2.Migrations
 {
     [DbContext(typeof(Contexto))]
-    [Migration("20220313000202_ProductoPA12")]
+    [Migration("20220314020510_ProductoPA12")]
     partial class ProductoPA12
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -55,8 +55,8 @@ namespace Jose_Gonzalez_Ap1_p2.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<double>("Existencia")
-                        .HasColumnType("REAL");
+                    b.Property<int>("Existencia")
+                        .HasColumnType("INTEGER");
 
                     b.Property<DateTime?>("FechaCaducidad")
                         .HasColumnType("TEXT");

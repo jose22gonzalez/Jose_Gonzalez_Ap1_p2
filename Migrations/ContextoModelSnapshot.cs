@@ -53,8 +53,8 @@ namespace Jose_Gonzalez_Ap1_p2.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<double>("Existencia")
-                        .HasColumnType("REAL");
+                    b.Property<int>("Existencia")
+                        .HasColumnType("INTEGER");
 
                     b.Property<DateTime?>("FechaCaducidad")
                         .HasColumnType("TEXT");

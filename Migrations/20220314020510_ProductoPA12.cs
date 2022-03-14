@@ -32,7 +32,7 @@ namespace Jose_Gonzalez_Ap1_p2.Migrations
                     ProductoId = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Descripcion = table.Column<string>(type: "TEXT", nullable: false),
-                    Existencia = table.Column<double>(type: "REAL", nullable: false),
+                    Existencia = table.Column<int>(type: "INTEGER", nullable: false),
                     FechaCaducidad = table.Column<DateTime>(type: "TEXT", nullable: true),
                     Costo = table.Column<double>(type: "REAL", nullable: false),
                     ValorInventario = table.Column<double>(type: "REAL", nullable: false),

@@ -63,7 +63,7 @@ namespace Jose_Gonzalez_Ap1_p2.BLL
             return paso;
         }
 
-        private bool Modificar(Productos productos)
+        public bool Modificar(Productos productos)
         {
             bool paso = false;
 
@@ -104,6 +104,23 @@ namespace Jose_Gonzalez_Ap1_p2.BLL
             {
                 productos = _contexto.Productos.Include(z => z.ProductosDetalles)
                                                 .Where(x => x.ProductoId == productoid)
+                                                .SingleOrDefault();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+            return productos;
+        }
+        public Productos Buscar(string descripcion)
+        {
+            Productos productos = new Productos();
+
+            try
+            {
+                productos = _contexto.Productos.Include(z => z.ProductosDetalles)
+                                                .Where(x => x.Descripcion == descripcion)
                                                 .SingleOrDefault();
             }
             catch (Exception)

@@ -34,6 +34,21 @@ namespace Jose_Gonzalez_Ap1_p2.BLL
 
             return paso;
         }
+         public EntradasEmpacados Buscar(int id)
+        {
+            EntradasEmpacados entradas = new EntradasEmpacados();
+
+            try
+            {
+                entradas = _contexto.EntradasEmpacados.Where(x => x.Id == id) .SingleOrDefault();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+            return entradas;
+        }
 
         public bool Guardar(EntradasEmpacados entrada)
         {
@@ -48,18 +63,7 @@ namespace Jose_Gonzalez_Ap1_p2.BLL
              bool paso = false;
             try
             {
-               
-
-                
                 _contexto.EntradasEmpacados.Add(entrada);
-                /*foreach (var detalle in producto.ProductosDetalles)
-                {
-                    _contexto.Entry(detalle).State = EntityState.Added;
-                    _contexto.Entry(detalle.Cantidad).State = EntityState.Modified;
-                   producto.Existencia -= detalle.Cantidad;
-                }
-
-                var producido = _contexto.Productos.Find(entrada.Id).Existencia += entrada.Cantidad;*/
                 paso = _contexto.SaveChanges() > 0;
                 
             }catch(Exception)
@@ -68,20 +72,8 @@ namespace Jose_Gonzalez_Ap1_p2.BLL
             }
 
             return paso;
-            /*
-            bool paso = false;
-            try
-            {
-                _contexto.EntradasEmpacados.Add(entrada);
-                paso = _contexto.SaveChanges() > 0;
-            }
-            catch (Exception)
-            {
-                throw;
-            }
+        }  
 
-            return paso;*/
-        }        
         private bool Modificar(EntradasEmpacados entrada)
         {
             bool paso = false;
@@ -97,12 +89,51 @@ namespace Jose_Gonzalez_Ap1_p2.BLL
                 _contexto.Entry(entrada).State = EntityState.Modified;
                 paso = _contexto.SaveChanges() > 0;
             }
+            
             catch (Exception)
             {
                 throw;
             }
 
             return paso;
+        }
+
+        public bool Eliminar(int id)
+        {
+            bool paso = false;
+
+            try
+            {
+
+                
+                var entrada = _contexto.EntradasEmpacados.Find(id);
+                if(entrada != null)
+                {
+                    _contexto.EntradasEmpacados.Remove(entrada);
+                    paso = _contexto.SaveChanges() > 0;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+            return paso;
+        }
+
+           public List<EntradasEmpacados> GetListEntradaE(Expression<Func<EntradasEmpacados, bool>> criterio)
+        {
+            List<EntradasEmpacados> lista = new List<EntradasEmpacados>();
+            try
+            {
+                lista = _contexto.EntradasEmpacados.Where(criterio).ToList();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            
+            return lista;
         }
     }
 }

@@ -72,24 +72,24 @@
                                         <tr class="table-info">
                                             <th>Producto Id</th>
                                             <th>Descripcion</th>
-                                            <th>Existencia</th>
+                                            <th>Cantidad</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-
-
-                                        @foreach (var item in lista)
+                                        @if (Pasar)
                                         {
+                                            @foreach (var item in lista)
+                                            {
 
-                                            <tr>
-                                                <td>@item.ProductoId</td>
-                                                <td>@item.Descripcion</td>
-                                                <td>@item.Existencia</td>
-                                                <td><span class="btn btn-sm btn-outline-primary oi oi-ban" href="#"
+                                                <tr>
+                                                    <td>@item.ProductoId</td>
+                                                    <td>@item.Descripcion</td>
+                                                    <td>@item.Existencia</td>
+                                                    <td><span class="btn btn-sm btn-outline-primary oi oi-ban" href="#"
                                                     @onclick="@(() => RemoverFila(item))"> Remover</span> </td>
-                                            </tr>
+                                                </tr>
+                                            }
                                         }
-
                                     </tbody>
                                 </table>
                                 <label>Peso Total</label>
@@ -108,6 +108,7 @@
                         <div class="input-group d-flex align-items-end">
                             <div class="flex-fill mx-2">
                                 <label>Producto</label>
+                                
                                 <InputText @bind-Value="entradasEmpacados.Producto" class="form-control" />
                             </div>
                             <div class="flex-fill mx-2">
@@ -118,11 +119,11 @@
                     </div>
                 </div>
                 <div class="card-footer">
-                    @*Botones de registros*@
+                    @*Botones de Empacado*@
                     <div class="form-group text-center" display: inline-block>
-                        <button type="button" class="btn btn-lg btn-primary oi oi-plus">Nuevo</button>
+                        <button type="button" class="btn btn-lg btn-primary oi oi-plus" @onclick="Nuevo">Nuevo</button>
                         <button type="submit" class="btn btn-lg btn-success oi oi-media-stop">Guardar</button>
-                        <button type="button" class="btn btn-lg btn-danger oi oi-trash">Eliminar</button>
+                        <button type="button" class="btn btn-lg btn-danger oi oi-trash" @onclick="Eliminar">Eliminar</button>
                     </div>
                 </div>
             </div>
@@ -146,59 +147,98 @@
     Productos productos = new Productos();
     ProductosDetalles productosDetalles = new ProductosDetalles();
     public string? productoid { get; set; }
+    public bool Pasar { get; set; } = false;
 
     protected override void OnInitialized()
     {
         lista = productoBBL.GetList(c => true);
-
+        Buscar();
         //listaDe = productoBBL.GetListD(c => true);
     }
 
     public void Limpiar()
     {
-        EntradasEmpacados entradasEmpacados = new EntradasEmpacados();
+       entradasEmpacados = new EntradasEmpacados();
+       Pasar = false;
     }
 
     public void Buscar()
     {
+           if (this.entradasEmpacados.Id > 0)
+        {
+            EntradasEmpacados encontrado = entradaEmpacadosbbl.Buscar(this.entradasEmpacados.Id);
+            if (encontrado != null)
+            {
+                this.entradasEmpacados = encontrado;
+                
+                toastService.ShowSuccess("A sido encontrado producto con exitos ");
 
+            }
+            else
+            {
+                toastService.ShowSuccess("A sido encontrado producto con exitos ");
+            }
+        }
     }
 
     public void Agregar()
     {
-
-        productoid = productos.ProductoId.ToString();
-        entradasEmpacados.Producto = productoid;
-        int exi = 0;
-        exi = (int)productos.Existencia - entradasEmpacados.Cantidad;
-        productos.Existencia  = exi;
+        entradasEmpacados.Producto = productos.ProductoId.ToString();
         listaEE.Add(entradasEmpacados);
-        lista = productoBBL.GetList(p => p.ProductoId == int.Parse(productoid));
+        Productos encontrado = productoBBL.Buscar(this.productos.ProductoId);
+        if (encontrado != null)
+        {
+            Pasar = true;
+            this.productos = encontrado;
+            productos.Existencia -= entradasEmpacados.Cantidad;
+            CalcularInventario();
+            lista = productoBBL.GetList(p => true);
+            
+        }
+
+    }
+    public void CalcularInventario()
+    {
+        productos.ValorInventario = productos.Costo * productos.Existencia;
     }
 
     private void RemoverFila(Productos item)
     {
 
         this.lista.Remove(item);
-        lista = productoBBL.GetList(c => true);
+        toastService.ShowSuccess("Se a removido correctamente");
 
     }
 
     private void Guardar()
     {
-        entradaEmpacadosbbl.Guardar(entradasEmpacados);
+        entradaEmpacadosbbl.Guardar(entradasEmpacados); 
+        productoBBL.Guardar(productos);
         toastService.ShowSuccess("Se a Guardado correctamente");
         Limpiar();
-       
+
     }
 
-    public void Editar()
+    public void Nuevo()
     {
-
+        Limpiar();
     }
 
     public void Eliminar()
     {
-
+        bool eliminado;
+        eliminado = entradaEmpacadosbbl.Eliminar(entradasEmpacados.Id);
+        if (eliminado)
+        {
+            Limpiar();
+            toastService.ShowSuccess("Eliminación exitosa");
+        }
+        else
+        {
+            toastService.ShowSuccess("No se pudo eliminar con exito");
+        }
     }
+
+   
+
 }
