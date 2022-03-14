@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Jose_Gonzalez_Ap1_p2.Migrations
 {
     [DbContext(typeof(Contexto))]
-    [Migration("20220314020510_ProductoPA12")]
+    [Migration("20220314194246_ProductoPA12")]
     partial class ProductoPA12
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
