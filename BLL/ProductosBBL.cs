@@ -157,7 +157,11 @@ namespace Jose_Gonzalez_Ap1_p2.BLL
             List<Productos> lista = new List<Productos>();
             try
             {
-                lista = _contexto.Productos.Where(criterio).ToList();
+                lista = _contexto.Productos.Include(x => x.ProductosDetalles)
+                                            .Where(criterio)
+                                            .AsNoTracking()
+                                            .ToList();
+                //lista = _contexto.Productos.Where(criterio).ToList();
             }
             catch (Exception)
             {

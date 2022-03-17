@@ -49,17 +49,36 @@ namespace Jose_Gonzalez_Ap1_p2.BLL
 
             return entradas;
         }
-
-        public bool Guardar(EntradasEmpacados entrada)
+         public bool Guardar(EntradasEmpacados entrada)
         {
             if(Existe(entrada.Id))
                 return Modificar(entrada);
             else
                 return Insertar(entrada);
         }
-
-          private bool Insertar(EntradasEmpacados entrada)
+         public bool Modificar(EntradasEmpacados entrada)
         {
+            bool paso = false;
+
+            try
+            {
+                _contexto.Database.ExecuteSqlRaw($"Delete FROM ProductosDetalles where ProductoId={entrada.Id}");
+                _contexto.Entry(entrada).State = EntityState.Modified;
+
+                paso = _contexto.SaveChanges() > 0;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+            return paso;
+        }
+
+
+          public bool Insertar(EntradasEmpacados entrada)
+        {
+            
              bool paso = false;
             try
             {
@@ -73,30 +92,6 @@ namespace Jose_Gonzalez_Ap1_p2.BLL
 
             return paso;
         }  
-
-        private bool Modificar(EntradasEmpacados entrada)
-        {
-            bool paso = false;
-            Productos productos = new Productos();
-            try
-            {
-                _contexto.Database.ExecuteSqlRaw($"Delete FROM EntradasEmpacados where Id={entrada.Id}");
-                  foreach (var anterior in productos.ProductosDetalles)
-                {
-                    _contexto.Entry(anterior).State = EntityState.Added;
-                }
-                
-                _contexto.Entry(entrada).State = EntityState.Modified;
-                paso = _contexto.SaveChanges() > 0;
-            }
-            
-            catch (Exception)
-            {
-                throw;
-            }
-
-            return paso;
-        }
 
         public bool Eliminar(int id)
         {
