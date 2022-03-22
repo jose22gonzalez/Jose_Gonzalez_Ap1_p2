@@ -11,9 +11,7 @@ namespace Jose_Gonzalez_Ap1_p2.DAL
     public class Contexto : DbContext
     {
         public DbSet<Productos> Productos {get; set;}
-        public DbSet<ProductosDetalles> ProductosDetalles {get; set;}
         public DbSet<EntradasEmpacados> EntradasEmpacados { get; set; }
-        
         public Contexto(DbContextOptions<Contexto> options) : base(options){}
     }
 }

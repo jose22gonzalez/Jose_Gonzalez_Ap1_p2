@@ -171,20 +171,7 @@ namespace Jose_Gonzalez_Ap1_p2.BLL
             return lista;
         }
 
-        public List<ProductosDetalles> GetListD(Expression<Func<ProductosDetalles, bool>> criterio)
-        {
-            List<ProductosDetalles> lista = new List<ProductosDetalles>();
-            try
-            {
-                lista = _contexto.ProductosDetalles.Where(criterio).ToList();
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-            
-            return lista;
-        }
+       
 
        
     }
