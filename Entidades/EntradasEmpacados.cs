@@ -11,11 +11,12 @@ namespace Jose_Gonzalez_Ap1_p2.Entidades
     public class EntradasEmpacados
     {
         [Key]
-        public int Id { get; set; }
+        public int IdEmpacado { get; set; }
         public DateTime? Fecha { get; set; } = null;
         public string? Concepto { get; set; }
-        public string? Producto { get; set; }
-        public int Cantidad { get; set; }
-      
+        public int CantidadUtilizado { get; set; }
+
+        [ForeignKey("IdEmpacado")]
+        public virtual List<EntradaEmpaqueDetalle> EntradaEmpaqueDetalle {get; set;} = new List<EntradaEmpaqueDetalle>();
     }
 }

@@ -15,8 +15,6 @@
                             <option value="1">Id</option>
                             <option value="2">Fecha</option>
                             <option value="3">Concepto</option>
-                            <option value="4">Producto</option>
-                            <option value="5">Cantidad</option>
                         </select>
                     </div>
                     <div class="flex-fill mx-2">
@@ -28,7 +26,7 @@
                         <input type="date" class="form-control" @bind="FechasC" />
                     </div>
 
-                    
+
                     <button type="button" class="btn btn-warning" @onclick="Buscar">
                         <i class="oi oi-magnifying-glass mr-2"> Buscar</i>
                     </button>
@@ -36,26 +34,23 @@
             </form>
         </div>
         <table class="table table-bordered">
-            <thead  class="thead-darck">
+            <thead class="thead-darck">
                 <tr class="table">
                     <th>Id</th>
                     <th>Fecha</th>
                     <th>Concepto</th>
-                    <th>Producto</th>
-                    <th>Cantidad</th>
                 </tr>
             </thead>
             <tbody>
-                 @foreach (var item in listaE)
+                @foreach (var item in listaE)
                 {
-                    <tr>
-                        <td>@item.Id</td>
-                        <td>@item.Fecha</td>
-                        <td>@item.Concepto</td>
-                        <td>@item.Producto</td>
-                        <td>@item.Cantidad</td>
-                        <td><a class="btn btn-sm btn-outline-primary oi oi-eye" href="R_ProductosEmpacado/@item.Id">Ver</a></td>
-                    </tr>
+                        <tr>
+                            <td>@item.IdEmpacado</td>
+                            <td>@item.Fecha</td>
+                            <td>@item.Concepto</td>
+                            <td><a class="btn btn-sm btn-outline-primary oi oi-eye"
+                            href="R_ProductosEmpacado/@item.IdEmpacado">Ver</a></td>
+                        </tr>
                 }
             </tbody>
         </table>
@@ -68,8 +63,11 @@
     public DateTime? FechasC { get; set; } = null;
 
     public List<EntradasEmpacados> listaE = new List<EntradasEmpacados>();
+    
+    public EntradasEmpacados entradasEmpcados { get; set; } = new EntradasEmpacados();
+    public EntradaEmpaqueDetalle entradaEmpaqueDetalle { get; set; } = new EntradaEmpaqueDetalle();
 
-     [Inject]
+    [Inject]
     public EntradaEmpacadosBBL entradaEmpacadoaBBL { get; set; }
 
 
@@ -79,20 +77,14 @@
         {
             switch (Filtro)
             {
-               case "1":
-                    listaE = entradaEmpacadoaBBL.GetListEntradaE(p => p.Id == int.Parse(Criterio));
+                case "1":
+                    listaE = entradaEmpacadoaBBL.GetListEntradaE(p => p.IdEmpacado == int.Parse(Criterio));
                     break;
                 case "2":
                     listaE = entradaEmpacadoaBBL.GetListEntradaE(c => c.Fecha.ToString().ToLower().Contains(FechasC.ToString().ToLower()));
                     break;
                 case "3":
                     listaE = entradaEmpacadoaBBL.GetListEntradaE(p => p.Concepto.ToLower().Contains(Criterio.ToLower()));
-                    break;
-                case "4":
-                    listaE = entradaEmpacadoaBBL.GetListEntradaE(p => p.Producto.ToLower().Contains(Criterio.ToLower()));
-                    break;
-                case "5":
-                    listaE = entradaEmpacadoaBBL.GetListEntradaE(p => p.Cantidad == int.Parse(Criterio));
                     break;
             }
         }

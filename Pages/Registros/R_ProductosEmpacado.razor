@@ -16,7 +16,7 @@
                             <div class="form-group">
                                 <label> Id</label>
                                 <div class="input-group">
-                                    <InputNumber @bind-Value="entradasEmpacados.Id" class="form-control" />
+                                    <InputNumber @bind-Value="entradasEmpacados.IdEmpacado" class="form-control" />
                                     <div>
                                         <button type="submit"
                                             class="btn btn-primary input-group-text oi oi-magnifying-glass"
@@ -52,14 +52,13 @@
                                     {
 
                                         <option value="@item.ProductoId">@item.Descripcion</option>
-
                                     }
 
                                 </InputSelect>
                             </div>
                             <div class="flex-fill mx-2">
                                 <label>Cantidad</label>
-                                <InputNumber @bind-Value="entradasEmpacados.Cantidad" class="form-control" />
+                                <InputNumber @bind-Value="entradasEmpacados.CantidadUtilizado" class="form-control" />
                             </div>
                             <div class="flex-fill mx-2">
                                 <button type="button" class="btn btn-lg btn-primary oi oi-plus"
@@ -71,9 +70,9 @@
                                 <table class="table table-bordered">
                                     <thead class="thead-darck">
                                         <tr class="table-info">
-                                            <th>Producto Id</th>
-                                            <th>Descripcion</th>
-                                            <th>Cantidad</th>
+                                            <th>Empaque Id</th>
+                                            <th>Producto</th>
+                                            <th>Cantidad Empaque</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -109,12 +108,12 @@
                         <div class="input-group d-flex align-items-end">
                             <div class="flex-fill mx-2">
                                 <label>Producto</label>
-
-                                <InputText @bind-Value="entradasEmpacados.Producto" class="form-control" />
+                                <InputText class="form-control" @bind-Value="entradaEmpaqueDetalle.Producto" />
                             </div>
                             <div class="flex-fill mx-2">
                                 <label>Cantidad</label>
-                                <InputNumber @bind-Value="entradasEmpacados.Cantidad" class="form-control" />
+                                <InputNumber @bind-Value="entradaEmpaqueDetalle.CantidadProducido"
+                                    class="form-control" />
                             </div>
                         </div>
                     </div>
@@ -137,37 +136,38 @@
 {
     [Parameter]
     public int Id { get; set; }
-    public EntradasEmpacados entradasEmpacados = new EntradasEmpacados();
-    List<EntradasEmpacados> listaEE = new List<EntradasEmpacados>();
-    public List<ProductosDetalles> listaDe = new List<ProductosDetalles>();
 
+    public EntradasEmpacados entradasEmpacados = new EntradasEmpacados();
+    public Productos productos = new Productos();
+    public EntradaEmpaqueDetalle entradaEmpaqueDetalle = new EntradaEmpaqueDetalle();
+
+    public List<EntradasEmpacados> listaEE = new List<EntradasEmpacados>();
+    public List<EntradaEmpaqueDetalle> ListaED = new List<EntradaEmpaqueDetalle>();
     public List<Productos> lista = new List<Productos>();
+
     [Inject]
     public ProductosBBL productoBBL { get; set; }
-
     [Inject]
     public EntradaEmpacadosBBL entradaEmpacadosbbl { get; set; }
 
-    Productos productos = new Productos();
-    ProductosDetalles productosDetalles = new ProductosDetalles();
+
     public string? productoid { get; set; }
     public bool Pasar { get; set; } = false;
     public int PesoTotal { get; set; }
     public int Count { get; set; }
-
-
+    public int IdEmpaqueTemp { get; set; }
 
     protected override void OnInitialized()
     {
-        entradasEmpacados.Id = Id;
+        entradasEmpacados.IdEmpacado = Id;
         lista = productoBBL.GetList(c => true);
         Buscar();
-
     }
 
     public void Limpiar()
     {
         entradasEmpacados = new EntradasEmpacados();
+        entradaEmpaqueDetalle = new EntradaEmpaqueDetalle();
         Pasar = false;
     }
     public void Nuevo()
@@ -177,15 +177,13 @@
 
     public void Buscar()
     {
-        if (this.entradasEmpacados.Id > 0)
+        if (this.entradasEmpacados.IdEmpacado > 0)
         {
-            EntradasEmpacados encontrado = entradaEmpacadosbbl.Buscar(this.entradasEmpacados.Id);
+            EntradasEmpacados encontrado = entradaEmpacadosbbl.Buscar(this.entradasEmpacados.IdEmpacado);
             if (encontrado != null)
             {
                 this.entradasEmpacados = encontrado;
-
                 toastService.ShowSuccess("A sido encontrado producto con exitos ");
-
             }
             else
             {
@@ -196,39 +194,35 @@
 
     public void Agregar()
     {
+        Productos encontrado = productoBBL.Buscar(this.productos.ProductoId);
 
-
-        listaEE.Add(entradasEmpacados);
-        foreach (var item in listaEE)
+        if (encontrado != null)
         {
-            Productos encontrado = productoBBL.Buscar(this.productos.ProductoId);
-            Pasar = true;
-            if (encontrado != null)
+            this.productos = encontrado;
+            CalcularExistencia();
+            CalcularInventario();
+            PesoTotalProducto();
+            entradaEmpaqueDetalle.CantidadProducido = entradasEmpacados.CantidadUtilizado;
+            entradaEmpaqueDetalle.CantidadProducido += entradasEmpacados.CantidadUtilizado;
+            Count = Count + 1;
+            if (Count >= 2)
             {
-
-                this.productos = encontrado;
-                CalcularExistencia();
-                CalcularInventario();
-                PesoTotalProducto();
-                Count = Count + 1;
-                if (Count <= 2)
-                {
-                    entradasEmpacados.Producto = "Fruptos Mixto";
-                }
-                else
-                {
-                    entradasEmpacados.Producto = productos.Descripcion;
-                }
-                lista = productoBBL.GetList(p => true);
-
+                entradaEmpaqueDetalle.Producto = "Mixto";
             }
+            else
+            {
+                entradaEmpaqueDetalle.Producto = productos.Descripcion;
+            }
+            this.entradasEmpacados.EntradaEmpaqueDetalle.Add(entradaEmpaqueDetalle);
+            Pasar = true;
+
+            lista = productoBBL.GetList(p => true);
+
         }
-
-
     }
     public void CalcularExistencia()
     {
-        productos.Existencia -= entradasEmpacados.Cantidad;
+        productos.Existencia -= entradasEmpacados.CantidadUtilizado;
     }
     public void CalcularInventario()
     {
@@ -237,49 +231,46 @@
 
     public void PesoTotalProducto()
     {
-        PesoTotal += entradasEmpacados.Cantidad;
+        PesoTotal += entradasEmpacados.CantidadUtilizado * productos.Peso;
     }
 
     private void RemoverFila(Productos item)
     {
-
         this.lista.Remove(item);
         toastService.ShowSuccess("Se a removido correctamente");
-
     }
 
     private void Guardar()
     {
-        if (!entradaEmpacadosbbl.Existe(entradasEmpacados.Id))
+        if (!entradaEmpacadosbbl.Existe(entradasEmpacados.IdEmpacado))
         {
-             entradaEmpacadosbbl.Insertar(entradasEmpacados);
-            foreach (var item in lista)
-            {
-                Productos encontrado = productoBBL.Buscar(this.productos.ProductoId);
-                this.productos = encontrado;
-                productoBBL.Modificar(productos);
-                
-                Limpiar();
 
-            }
+            entradaEmpacadosbbl.Guardar(entradasEmpacados);
+            Productos encontrado = productoBBL.Buscar(this.productos.ProductoId);
+            this.productos = encontrado;
+            productoBBL.Modificar(productos);
+            Limpiar();
             toastService.ShowSuccess(" Se a Guardado correctamente ");
-
-        }else
+        }
+        else
         {
             toastService.ShowSuccess("No se puede repetir el Id");
         }
-
     }
 
-
+    public void RecuperarExistido()
+    {
+        productos.Existencia += entradasEmpacados.CantidadUtilizado;
+    }
 
     public void Eliminar()
     {
         bool eliminado;
-        eliminado = entradaEmpacadosbbl.Eliminar(entradasEmpacados.Id);
+        eliminado = entradaEmpacadosbbl.Eliminar(entradasEmpacados.IdEmpacado);
         if (eliminado)
         {
             Limpiar();
+            RecuperarExistido();
             toastService.ShowSuccess("Eliminación exitosa");
         }
         else
@@ -287,7 +278,4 @@
             toastService.ShowSuccess("No se pudo eliminar con exito");
         }
     }
-
-
-
 }

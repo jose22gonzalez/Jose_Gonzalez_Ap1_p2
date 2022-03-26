@@ -19,13 +19,13 @@ namespace Jose_Gonzalez_Ap1_p2.BLL
             _contexto = contexto;
         }
 
-         public bool Existe(int id)
+        public bool Existe(int id)
         {
             bool paso = false;
 
             try
             {
-                paso = _contexto.EntradasEmpacados.Any(e => e.Id == id);
+                paso = _contexto.EntradasEmpacados.Any(e => e.IdEmpacado == id);
             }
             catch (Exception)
             {
@@ -34,13 +34,15 @@ namespace Jose_Gonzalez_Ap1_p2.BLL
 
             return paso;
         }
-         public EntradasEmpacados Buscar(int id)
+        public EntradasEmpacados Buscar(int id)
         {
             EntradasEmpacados entradas = new EntradasEmpacados();
 
             try
             {
-                entradas = _contexto.EntradasEmpacados.Where(x => x.Id == id) .SingleOrDefault();
+                 entradas = _contexto.EntradasEmpacados.Include(z => z.EntradaEmpaqueDetalle)
+                                                .Where(x => x.IdEmpacado == id)
+                                                .SingleOrDefault();
             }
             catch (Exception)
             {
@@ -49,22 +51,20 @@ namespace Jose_Gonzalez_Ap1_p2.BLL
 
             return entradas;
         }
-         public bool Guardar(EntradasEmpacados entrada)
+        public bool Guardar(EntradasEmpacados entrada)
         {
-            if(Existe(entrada.Id))
+            if (Existe(entrada.IdEmpacado))
                 return Modificar(entrada);
             else
                 return Insertar(entrada);
         }
-         public bool Modificar(EntradasEmpacados entrada)
+
+        private bool Insertar(EntradasEmpacados entrada)
         {
             bool paso = false;
-
             try
             {
-                _contexto.Database.ExecuteSqlRaw($"Delete FROM ProductosDetalles where ProductoId={entrada.Id}");
-                _contexto.Entry(entrada).State = EntityState.Modified;
-
+                _contexto.EntradasEmpacados.Add(entrada);
                 paso = _contexto.SaveChanges() > 0;
             }
             catch (Exception)
@@ -75,23 +75,28 @@ namespace Jose_Gonzalez_Ap1_p2.BLL
             return paso;
         }
 
-
-          public bool Insertar(EntradasEmpacados entrada)
+        public bool Modificar(EntradasEmpacados entrada)
         {
-            
-             bool paso = false;
+            bool paso = false;
+
             try
             {
-                _contexto.EntradasEmpacados.Add(entrada);
+                _contexto.Database.ExecuteSqlRaw($"Delete FROM EntradasEmpacados where IdEmpacado={entrada.IdEmpacado}");
+                foreach (var anterior in entrada.EntradaEmpaqueDetalle)
+                {
+                    _contexto.Entry(anterior).State = EntityState.Added;
+                }
+
+                _contexto.Entry(entrada).State = EntityState.Modified;
                 paso = _contexto.SaveChanges() > 0;
-                
-            }catch(Exception)
+            }
+            catch (Exception)
             {
                 throw;
             }
 
             return paso;
-        }  
+        }
 
         public bool Eliminar(int id)
         {
@@ -100,9 +105,9 @@ namespace Jose_Gonzalez_Ap1_p2.BLL
             try
             {
 
-                
+
                 var entrada = _contexto.EntradasEmpacados.Find(id);
-                if(entrada != null)
+                if (entrada != null)
                 {
                     _contexto.EntradasEmpacados.Remove(entrada);
                     paso = _contexto.SaveChanges() > 0;
@@ -116,7 +121,7 @@ namespace Jose_Gonzalez_Ap1_p2.BLL
             return paso;
         }
 
-           public List<EntradasEmpacados> GetListEntradaE(Expression<Func<EntradasEmpacados, bool>> criterio)
+        public List<EntradasEmpacados> GetListEntradaE(Expression<Func<EntradasEmpacados, bool>> criterio)
         {
             List<EntradasEmpacados> lista = new List<EntradasEmpacados>();
             try
@@ -127,7 +132,7 @@ namespace Jose_Gonzalez_Ap1_p2.BLL
             {
                 throw;
             }
-            
+
             return lista;
         }
     }

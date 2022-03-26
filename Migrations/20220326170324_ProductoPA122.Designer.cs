@@ -11,21 +11,43 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Jose_Gonzalez_Ap1_p2.Migrations
 {
     [DbContext(typeof(Contexto))]
-    [Migration("20220314194246_ProductoPA12")]
-    partial class ProductoPA12
+    [Migration("20220326170324_ProductoPA122")]
+    partial class ProductoPA122
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "6.0.3");
 
-            modelBuilder.Entity("Jose_Gonzalez_Ap1_p2.Entidades.EntradasEmpacados", b =>
+            modelBuilder.Entity("Jose_Gonzalez_Ap1_p2.Entidades.EntradaEmpaqueDetalle", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("EmpaqueDetalleId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("Cantidad")
+                    b.Property<int>("CantidadProducido")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("IdEmpacado")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Producto")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("EmpaqueDetalleId");
+
+                    b.HasIndex("IdEmpacado");
+
+                    b.ToTable("EntradaEmpaqueDetalle");
+                });
+
+            modelBuilder.Entity("Jose_Gonzalez_Ap1_p2.Entidades.EntradasEmpacados", b =>
+                {
+                    b.Property<int>("IdEmpacado")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("CantidadUtilizado")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Concepto")
@@ -34,10 +56,7 @@ namespace Jose_Gonzalez_Ap1_p2.Migrations
                     b.Property<DateTime?>("Fecha")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Producto")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
+                    b.HasKey("IdEmpacado");
 
                     b.ToTable("EntradasEmpacados");
                 });
@@ -109,6 +128,15 @@ namespace Jose_Gonzalez_Ap1_p2.Migrations
                     b.ToTable("ProductosDetalles");
                 });
 
+            modelBuilder.Entity("Jose_Gonzalez_Ap1_p2.Entidades.EntradaEmpaqueDetalle", b =>
+                {
+                    b.HasOne("Jose_Gonzalez_Ap1_p2.Entidades.EntradasEmpacados", null)
+                        .WithMany("EntradaEmpaqueDetalle")
+                        .HasForeignKey("IdEmpacado")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Jose_Gonzalez_Ap1_p2.Entidades.ProductosDetalles", b =>
                 {
                     b.HasOne("Jose_Gonzalez_Ap1_p2.Entidades.Productos", null)
@@ -116,6 +144,11 @@ namespace Jose_Gonzalez_Ap1_p2.Migrations
                         .HasForeignKey("ProductoId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Jose_Gonzalez_Ap1_p2.Entidades.EntradasEmpacados", b =>
+                {
+                    b.Navigation("EntradaEmpaqueDetalle");
                 });
 
             modelBuilder.Entity("Jose_Gonzalez_Ap1_p2.Entidades.Productos", b =>
