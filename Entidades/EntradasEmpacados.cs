@@ -15,6 +15,8 @@ namespace Jose_Gonzalez_Ap1_p2.Entidades
         public DateTime? Fecha { get; set; } = null;
         public string? Concepto { get; set; }
         public int CantidadUtilizado { get; set; }
+        public int PesoEmpaquetado { get; set; }
+        public string? ProductoEmpaquetado { get; set; }
 
         [ForeignKey("IdEmpacado")]
         public virtual List<EntradaEmpaqueDetalle> EntradaEmpaqueDetalle {get; set;} = new List<EntradaEmpaqueDetalle>();

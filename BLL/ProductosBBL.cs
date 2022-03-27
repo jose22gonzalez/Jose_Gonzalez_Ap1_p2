@@ -66,10 +66,18 @@ namespace Jose_Gonzalez_Ap1_p2.BLL
         public bool Modificar(Productos productos)
         {
             bool paso = false;
+            EntradasEmpacados entrada = new EntradasEmpacados();
 
             try
             {
                 _contexto.Database.ExecuteSqlRaw($"Delete FROM ProductosDetalles where ProductoId={productos.ProductoId}");
+
+                foreach (var item in entrada.EntradaEmpaqueDetalle)
+                {
+                    Productos encontrado = _contexto.Productos.Find(item.EmpaqueDetalleId);
+                    _contexto.Entry(encontrado).State = EntityState.Modified;
+                    paso = _contexto.SaveChanges() > 0;
+                }
 
                 foreach (var anterior in productos.ProductosDetalles)
                 {

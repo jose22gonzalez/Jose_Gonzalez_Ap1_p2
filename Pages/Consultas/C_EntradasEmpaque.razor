@@ -15,6 +15,9 @@
                             <option value="1">Id</option>
                             <option value="2">Fecha</option>
                             <option value="3">Concepto</option>
+                            <option value="4">Cantidad</option>
+                            <option value="5">Peso</option>
+                            <option value="6">Producto</option>
                         </select>
                     </div>
                     <div class="flex-fill mx-2">
@@ -39,6 +42,9 @@
                     <th>Id</th>
                     <th>Fecha</th>
                     <th>Concepto</th>
+                    <th>Cantidad</th>
+                    <th>Peso</th>
+                    <th>Producto</th>
                 </tr>
             </thead>
             <tbody>
@@ -48,6 +54,9 @@
                             <td>@item.IdEmpacado</td>
                             <td>@item.Fecha</td>
                             <td>@item.Concepto</td>
+                            <td>@item.CantidadUtilizado</td>
+                            <td>@item.PesoEmpaquetado</td>
+                            <td>@item.ProductoEmpaquetado</td>
                             <td><a class="btn btn-sm btn-outline-primary oi oi-eye"
                             href="R_ProductosEmpacado/@item.IdEmpacado">Ver</a></td>
                         </tr>
@@ -65,7 +74,7 @@
     public List<EntradasEmpacados> listaE = new List<EntradasEmpacados>();
     
     public EntradasEmpacados entradasEmpcados { get; set; } = new EntradasEmpacados();
-    public EntradaEmpaqueDetalle entradaEmpaqueDetalle { get; set; } = new EntradaEmpaqueDetalle();
+    public EntradaEmpaqueDetalle entradaEmpaqueDetalle { get; set; }
 
     [Inject]
     public EntradaEmpacadosBBL entradaEmpacadoaBBL { get; set; }

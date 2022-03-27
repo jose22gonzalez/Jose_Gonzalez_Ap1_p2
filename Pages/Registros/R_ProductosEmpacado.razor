@@ -70,9 +70,9 @@
                                 <table class="table table-bordered">
                                     <thead class="thead-darck">
                                         <tr class="table-info">
-                                            <th>Empaque Id</th>
-                                            <th>Producto</th>
-                                            <th>Cantidad Empaque</th>
+                                            <th>Producto Id</th>
+                                            <th>Descripcion</th>
+                                            <th>Cantidad</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -151,9 +151,10 @@
     public EntradaEmpacadosBBL entradaEmpacadosbbl { get; set; }
 
 
-    public string? productoid { get; set; }
+    public int productoid { get; set; }
     public bool Pasar { get; set; } = false;
     public int PesoTotal { get; set; }
+    public int PesoPorExistencia { get; set; }
     public int Count { get; set; }
     public int IdEmpaqueTemp { get; set; }
 
@@ -195,12 +196,14 @@
     public void Agregar()
     {
         Productos encontrado = productoBBL.Buscar(this.productos.ProductoId);
-
+        
         if (encontrado != null)
         {
             this.productos = encontrado;
-            CalcularExistencia();
+            productoid =  productos.ProductoId;
             CalcularInventario();
+            CalcularPeso();
+            CalcularExistencia();
             PesoTotalProducto();
             entradaEmpaqueDetalle.CantidadProducido = entradasEmpacados.CantidadUtilizado;
             entradaEmpaqueDetalle.CantidadProducido += entradasEmpacados.CantidadUtilizado;
@@ -215,8 +218,8 @@
             }
             this.entradasEmpacados.EntradaEmpaqueDetalle.Add(entradaEmpaqueDetalle);
             Pasar = true;
-
             lista = productoBBL.GetList(p => true);
+
 
         }
     }
@@ -231,7 +234,13 @@
 
     public void PesoTotalProducto()
     {
-        PesoTotal += entradasEmpacados.CantidadUtilizado * productos.Peso;
+        PesoTotal += entradasEmpacados.CantidadUtilizado * PesoPorExistencia;
+    }
+
+    public void CalcularPeso()
+    {
+        PesoPorExistencia =  productos.Peso / productos.Existencia;
+        productos.Peso -= PesoPorExistencia;
     }
 
     private void RemoverFila(Productos item)
@@ -242,13 +251,14 @@
 
     private void Guardar()
     {
+        Productos encontrado = productoBBL.Buscar(this.productos.ProductoId);
         if (!entradaEmpacadosbbl.Existe(entradasEmpacados.IdEmpacado))
-        {
-
-            entradaEmpacadosbbl.Guardar(entradasEmpacados);
-            Productos encontrado = productoBBL.Buscar(this.productos.ProductoId);
+        { 
             this.productos = encontrado;
-            productoBBL.Modificar(productos);
+            entradasEmpacados.PesoEmpaquetado = PesoTotal;
+            entradasEmpacados.ProductoEmpaquetado =  entradaEmpaqueDetalle.Producto;
+            entradaEmpacadosbbl.Guardar(entradasEmpacados);
+           productoBBL.Modificar(productos);
             Limpiar();
             toastService.ShowSuccess(" Se a Guardado correctamente ");
         }
@@ -265,12 +275,14 @@
 
     public void Eliminar()
     {
+        
         bool eliminado;
+        Productos encontrado = productoBBL.Buscar(this.productos.ProductoId);
+        RecuperarExistido();
         eliminado = entradaEmpacadosbbl.Eliminar(entradasEmpacados.IdEmpacado);
         if (eliminado)
         {
             Limpiar();
-            RecuperarExistido();
             toastService.ShowSuccess("Eliminación exitosa");
         }
         else

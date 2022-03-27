@@ -17,7 +17,9 @@ namespace Jose_Gonzalez_Ap1_p2.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     Fecha = table.Column<DateTime>(type: "TEXT", nullable: true),
                     Concepto = table.Column<string>(type: "TEXT", nullable: true),
-                    CantidadUtilizado = table.Column<int>(type: "INTEGER", nullable: false)
+                    CantidadUtilizado = table.Column<int>(type: "INTEGER", nullable: false),
+                    PesoEmpaquetado = table.Column<int>(type: "INTEGER", nullable: false),
+                    ProductoEmpaquetado = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {

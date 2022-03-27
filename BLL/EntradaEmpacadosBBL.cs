@@ -98,6 +98,44 @@ namespace Jose_Gonzalez_Ap1_p2.BLL
             return paso;
         }
 
+         public bool Modificarpararestar(Productos producto, EntradasEmpacados entrada)
+        {
+            bool paso = false;
+            try
+            {
+                paso = _contexto.SaveChanges() > 0;
+
+                foreach (var item in entrada.EntradaEmpaqueDetalle)
+                {
+                    Productos encontrado = _contexto.Productos.Find(item.EmpaqueDetalleId);
+                    _contexto.Entry(encontrado).State = EntityState.Modified;
+                    paso = _contexto.SaveChanges() > 0;
+
+                }
+
+
+                _contexto.Database.ExecuteSqlRaw($"DELETE FROM Productosdetalle WHERE ProductoId={producto.ProductoId}");
+
+                foreach (var Anterior in producto.ProductosDetalles)
+                {
+                    _contexto.Entry(Anterior).State = EntityState.Added;
+                }
+
+                _contexto.Entry(producto).State = EntityState.Modified;
+
+                paso = _contexto.SaveChanges() > 0;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return paso;
+        }
+
+
+
+
+
         public bool Eliminar(int id)
         {
             bool paso = false;

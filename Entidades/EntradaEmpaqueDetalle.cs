@@ -1,3 +1,5 @@
+using System.Runtime.CompilerServices;
+using System.Globalization;
 using System.Data;
 using System;
 using System.Collections.Generic;
@@ -16,6 +18,14 @@ namespace Jose_Gonzalez_Ap1_p2.Entidades
         public int IdEmpacado { get; set; }
         public int CantidadProducido { get; set; }
         public string? Producto { get; set; }
+
+       /* public EntradaEmpaqueDetalle(int empaqueDetalleId, int idEmpacado, int cantidadProducido, string producto)
+        {
+            this.EmpaqueDetalleId = empaqueDetalleId;
+            this.IdEmpacado = idEmpacado;
+            this.CantidadProducido = cantidadProducido;
+            this.Producto = producto;
+        }*/
 
     }
 }

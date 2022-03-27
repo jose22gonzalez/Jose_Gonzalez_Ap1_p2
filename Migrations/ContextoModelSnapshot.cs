@@ -54,6 +54,12 @@ namespace Jose_Gonzalez_Ap1_p2.Migrations
                     b.Property<DateTime?>("Fecha")
                         .HasColumnType("TEXT");
 
+                    b.Property<int>("PesoEmpaquetado")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("ProductoEmpaquetado")
+                        .HasColumnType("TEXT");
+
                     b.HasKey("IdEmpacado");
 
                     b.ToTable("EntradasEmpacados");
